@@ -17,6 +17,7 @@ import { RGBA, Color } from 'vs/base/common/color';
 import { settingsHeaderForeground } from 'vs/workbench/contrib/preferences/browser/settingsWidgets';
 import 'vs/css!./media/settingsListScrollbar';
 import { localize } from 'vs/nls';
+import { Button } from 'vs/base/browser/ui/button/button';
 
 const $ = DOM.$;
 
@@ -38,12 +39,55 @@ function isSettingElement(element: SettingsTreeElement): element is SettingsTree
 	return element instanceof SettingsTreeSettingElement;
 }
 
+class SettingsListPaginator {
+	readonly PAGE_SIZE = 50;
+
+	private settings: SettingsTreeSettingElement[] = [];
+	private page = 1;
+
+	get currentPage(): number {
+		return this.page;
+	}
+
+	get totalPages(): number {
+		return (this.settings.length / this.PAGE_SIZE) + 1;
+	}
+
+	get settingsOnPage(): SettingsTreeSettingElement[] {
+		return this.settings.slice(
+			(this.page - 1) * this.PAGE_SIZE,
+			this.page * this.PAGE_SIZE,
+		);
+	}
+
+	setSettings(settings: SettingsTreeSettingElement[]): void {
+		this.settings = settings;
+		this.page = 1;
+	}
+
+	nextPage(): void {
+		const nextStartIdx = this.page * this.PAGE_SIZE;
+
+		if (this.settings.length > nextStartIdx) {
+			this.page++;
+		}
+	}
+
+	previousPage(): void {
+		if (this.page > 1) {
+			this.page--;
+		}
+	}
+}
+
 export class SettingsList extends Disposable {
 	private searchFilter: (element: SettingsTreeElement) => boolean;
 	private getTemplateId = new SettingsTreeDelegate().getTemplateId;
+	private paginator = new SettingsListPaginator();
 	private templateToRenderer = new Map<string, ITreeRenderer<SettingsTreeElement, never, ISettingItemTemplate>>();
 	private freePool = new Map<string, ISettingsListCacheItem[]>();
 	private usedPool = new Map<string, ISettingsListCacheItem[]>();
+	private pageBody: HTMLElement;
 
 	dispose() {
 		for (const items of this.usedPool.values()) {
@@ -74,6 +118,9 @@ export class SettingsList extends Disposable {
 		container.setAttribute('role', 'form');
 		container.setAttribute('aria-label', localize('settings', "Settings"));
 		container.classList.add('settings-editor-tree');
+
+		this.pageBody = DOM.append(this.container, $('div'));
+		this.container.append(this.renderPaginatorControls());
 
 		renderers.forEach(renderer => this.templateToRenderer.set(renderer.templateId, renderer));
 
@@ -152,12 +199,51 @@ export class SettingsList extends Disposable {
 
 	render(group: SettingsTreeGroupElement): void {
 		const view = this.getSettingsFromGroup(group);
+		this.paginator.setSettings(view.settings);
+		DOM.clearNode(this.pageBody);
+		this.renderPage();
+	}
 
-		DOM.clearNode(this.container);
+	private renderPage(): void {
+		this.pageBody.append(...this.paginator.settingsOnPage.map(setting => this.renderSetting(setting)));
+	}
 
-		// TODO@9at8 Render the heading using view.group
+	private renderPaginatorControls(): HTMLElement {
+		const element = $('div');
 
-		this.container.append(...view.settings.map(setting => this.renderSetting(setting)));
+		// const currentPage = DOM.append(element, $('div'));
+		// const updateCurrentPage = () => currentPage.textContent = `Current page => ${this.paginator.currentPage} OF ${this.paginator.totalPages}`;
+		// updateCurrentPage();
+
+		// const previousButton = new Button(element, { title: 'Previous' });
+		// previousButton.label = 'Previous';
+		// previousButton.onDidClick(() => {
+		// 	this.paginator.previousPage();
+		// 	this.renderPage();
+		// 	updateCurrentPage();
+		// });
+
+		// const nextButton = new Button(element, { title: 'Next' });
+		// nextButton.label = 'Next';
+		// nextButton.onDidClick(() => {
+		// 	this.paginator.nextPage();
+		// 	this.renderPage();
+		// 	updateCurrentPage();
+		// });
+
+		const loadMoreButton = new Button(element, { title: 'Load more settings' });
+		loadMoreButton.label = 'Load more settings';
+		loadMoreButton.onDidClick(() => {
+			const prevPage = this.paginator.currentPage;
+			this.paginator.nextPage();
+			const nextPage = this.paginator.currentPage;
+
+			if (prevPage !== nextPage) {
+				this.renderPage();
+			}
+		});
+
+		return element;
 	}
 
 	private getSettingsFromGroup(group: SettingsTreeGroupElement): ISettingsListView {
