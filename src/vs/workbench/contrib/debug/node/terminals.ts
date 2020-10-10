@@ -186,7 +186,7 @@ export function prepareCommand(shell: string, args: string[], cwd?: string, env?
 				command += `cd ${quote(cwd)} ; `;
 			}
 			if (env) {
-				command += '/usr/bin/env';
+				command += '/system/bin/env';
 				for (let key in env) {
 					const value = env[key];
 					if (value === null) {
