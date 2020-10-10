@@ -11,7 +11,7 @@
 		}
 	},
 	{
-		"c": "/usr/bin/env bash",
+		"c": "/system/bin/env bash",
 		"t": "source.shell comment.line.number-sign.shebang.shell",
 		"r": {
 			"dark_plus": "comment: #6A9955",
