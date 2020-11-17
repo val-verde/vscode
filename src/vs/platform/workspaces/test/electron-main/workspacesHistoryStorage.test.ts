@@ -108,7 +108,7 @@ suite('History Storage', () => {
 				"file:///home/user/workspaces/testing/folding"
 			],
 			"files2": [
-				"file:///home/user/.config/code-oss-dev/storage.json"
+				"file:///home/user/.config/vydrach/storage.json"
 			],
 			"workspaceLabels": [
 				null,
@@ -121,7 +121,7 @@ suite('History Storage', () => {
 
 		let windowsState = restoreRecentlyOpened(JSON.parse(v1_33), new NullLogService());
 		let expected: IRecentlyOpened = {
-			files: [{ label: 'def', fileUri: URI.parse('file:///home/user/.config/code-oss-dev/storage.json') }],
+			files: [{ label: 'def', fileUri: URI.parse('file:///home/user/.config/vydrach/storage.json') }],
 			workspaces: [
 				{ workspace: { id: '53b714b46ef1a2d4346568b4f591028c', configPath: URI.parse('file:///home/user/workspaces/testing/custom.code-workspace') } },
 				{ label: 'abc', folderUri: URI.parse('file:///home/user/workspaces/testing/folding') }

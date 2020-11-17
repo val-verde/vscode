@@ -123,7 +123,7 @@ suite('Windows State Storing', () => {
 					"id": "53b714b46ef1a2d4346568b4f591028c",
 					"configURIPath": "file:///home/user/workspaces/testing/custom.code-workspace"
 				},
-				"backupPath": "/home/user/.config/code-oss-dev/Backups/53b714b46ef1a2d4346568b4f591028c",
+				"backupPath": "/home/user/.config/vydrach/Backups/53b714b46ef1a2d4346568b4f591028c",
 				"uiState": {
 					"mode": 0,
 					"x": 0,
@@ -138,7 +138,7 @@ suite('Windows State Storing', () => {
 		let expected: IWindowsState = {
 			openedWindows: [],
 			lastActiveWindow: {
-				backupPath: '/home/user/.config/code-oss-dev/Backups/53b714b46ef1a2d4346568b4f591028c',
+				backupPath: '/home/user/.config/vydrach/Backups/53b714b46ef1a2d4346568b4f591028c',
 				uiState: { mode: WindowMode.Maximized, x: 0, y: 27, width: 2560, height: 1364 },
 				workspace: { id: '53b714b46ef1a2d4346568b4f591028c', configPath: URI.parse('file:///home/user/workspaces/testing/custom.code-workspace') }
 			}
@@ -150,7 +150,7 @@ suite('Windows State Storing', () => {
 			"openedWindows": [],
 			"lastActiveWindow": {
 				"folder": "file:///home/user/workspaces/testing/folding",
-				"backupPath": "/home/user/.config/code-oss-dev/Backups/1daac1621c6c06f9e916ac8062e5a1b5",
+				"backupPath": "/home/user/.config/vydrach/Backups/1daac1621c6c06f9e916ac8062e5a1b5",
 				"uiState": {
 					"mode": 1,
 					"x": 625,
@@ -165,7 +165,7 @@ suite('Windows State Storing', () => {
 		expected = {
 			openedWindows: [],
 			lastActiveWindow: {
-				backupPath: '/home/user/.config/code-oss-dev/Backups/1daac1621c6c06f9e916ac8062e5a1b5',
+				backupPath: '/home/user/.config/vydrach/Backups/1daac1621c6c06f9e916ac8062e5a1b5',
 				uiState: { mode: WindowMode.Normal, x: 625, y: 263, width: 1718, height: 953 },
 				folderUri: URI.parse('file:///home/user/workspaces/testing/folding')
 			}
@@ -176,7 +176,7 @@ suite('Windows State Storing', () => {
 			"openedWindows": [
 			],
 			"lastActiveWindow": {
-				"backupPath": "/home/user/.config/code-oss-dev/Backups/1549539668998",
+				"backupPath": "/home/user/.config/vydrach/Backups/1549539668998",
 				"uiState": {
 					"mode": 1,
 					"x": 768,
@@ -191,7 +191,7 @@ suite('Windows State Storing', () => {
 		expected = {
 			openedWindows: [],
 			lastActiveWindow: {
-				backupPath: '/home/user/.config/code-oss-dev/Backups/1549539668998',
+				backupPath: '/home/user/.config/vydrach/Backups/1549539668998',
 				uiState: { mode: WindowMode.Normal, x: 768, y: 336, width: 1024, height: 768 }
 			}
 		};

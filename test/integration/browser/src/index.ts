@@ -125,7 +125,7 @@ async function launchServer(browserType: BrowserType): Promise<{ endpoint: url.U
 
 	return new Promise(c => {
 		serverProcess?.stdout?.on('data', data => {
-			const matches = data.toString('ascii').match(/Web UI available at (.+)/);
+			const matches = data.toString('ascii').match(/Vydrach Web UI available at (.+)/);
 			if (matches !== null) {
 				c({ endpoint: url.parse(matches[1]), server: serverProcess });
 			}
