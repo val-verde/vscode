@@ -20,15 +20,15 @@ if (isWeb || typeof require === 'undefined' || typeof require.__$__nodeRequire !
 	// Running out of sources
 	if (Object.keys(product).length === 0) {
 		Object.assign(product, {
-			version: '1.51.0-dev',
-			nameShort: isWeb ? 'Code Web - OSS Dev' : 'Code - OSS Dev',
-			nameLong: isWeb ? 'Code Web - OSS Dev' : 'Code - OSS Dev',
-			applicationName: 'code-oss',
-			dataFolderName: '.vscode-oss',
-			urlProtocol: 'code-oss',
-			reportIssueUrl: 'https://github.com/microsoft/vscode/issues/new',
+			version: '1.50.0-dev',
+			nameShort: isWeb ? 'Vydrach Web' : 'Vydrach',
+			nameLong: isWeb ? 'Vydrach Web' : 'Vydrach',
+			applicationName: 'vydrach',
+			dataFolderName: '.vydrach',
+			urlProtocol: 'vydrach',
+			reportIssueUrl: 'https://github.com/val-verde/vydrach/issues/new',
 			licenseName: 'MIT',
-			licenseUrl: 'https://github.com/microsoft/vscode/blob/master/LICENSE.txt',
+			licenseUrl: 'https://github.com/val-verde/vydrach/blob/val-verde-mainline/LICENSE.txt',
 			extensionAllowedProposedApi: [
 				'ms-vscode.vscode-js-profile-flame',
 				'ms-vscode.vscode-js-profile-table',
