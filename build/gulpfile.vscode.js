@@ -79,13 +79,13 @@ const vscodeResources = [
 ];
 
 const optimizeVSCodeTask = task.define('optimize-vscode', task.series(
-	util.rimraf('out-vscode'),
+	util.rimraf('out-vydrach'),
 	common.optimizeTask({
 		src: 'out-build',
 		entryPoints: vscodeEntryPoints,
 		resources: vscodeResources,
 		loaderConfig: common.loaderConfig(),
-		out: 'out-vscode',
+		out: 'out-vydrach',
 		bundleInfo: undefined
 	})
 ));
@@ -94,8 +94,8 @@ gulp.task(optimizeVSCodeTask);
 const sourceMappingURLBase = `https://ticino.blob.core.windows.net/sourcemaps/${commit}`;
 const minifyVSCodeTask = task.define('minify-vscode', task.series(
 	optimizeVSCodeTask,
-	util.rimraf('out-vscode-min'),
-	common.minifyTask('out-vscode', `${sourceMappingURLBase}/core`)
+	util.rimraf('out-vydrach-min'),
+	common.minifyTask('out-vydrach', `${sourceMappingURLBase}/core`)
 ));
 gulp.task(minifyVSCodeTask);
 
@@ -356,16 +356,16 @@ BUILD_TARGETS.forEach(buildTarget => {
 	const opts = buildTarget.opts;
 
 	const [vscode, vscodeMin] = ['', 'min'].map(minified => {
-		const sourceFolderName = `out-vscode${dashed(minified)}`;
-		const destinationFolderName = `VSCode${dashed(platform)}${dashed(arch)}`;
+		const sourceFolderName = `out-vydrach${dashed(minified)}`;
+		const destinationFolderName = `Vydrach${dashed(platform)}${dashed(arch)}`;
 
-		const vscodeTaskCI = task.define(`vscode${dashed(platform)}${dashed(arch)}${dashed(minified)}-ci`, task.series(
+		const vscodeTaskCI = task.define(`vydrach${dashed(platform)}${dashed(arch)}${dashed(minified)}-ci`, task.series(
 			util.rimraf(path.join(buildRoot, destinationFolderName)),
 			packageTask(platform, arch, sourceFolderName, destinationFolderName, opts)
 		));
 		gulp.task(vscodeTaskCI);
 
-		const vscodeTask = task.define(`vscode${dashed(platform)}${dashed(arch)}${dashed(minified)}`, task.series(
+		const vscodeTask = task.define(`vydrach${dashed(platform)}${dashed(arch)}${dashed(minified)}`, task.series(
 			compileBuildTask,
 			compileExtensionsBuildTask,
 			minified ? minifyVSCodeTask : optimizeVSCodeTask,
@@ -404,13 +404,13 @@ const apiName = process.env.TRANSIFEX_API_NAME;
 const apiToken = process.env.TRANSIFEX_API_TOKEN;
 
 gulp.task(task.define(
-	'vscode-translations-push',
+	'vydrach-translations-push',
 	task.series(
 		compileBuildTask,
 		compileExtensionsBuildTask,
 		optimizeVSCodeTask,
 		function () {
-			const pathToMetadata = './out-vscode/nls.metadata.json';
+			const pathToMetadata = './out-vydrach/nls.metadata.json';
 			const pathToExtensions = '.build/extensions/*';
 			const pathToSetup = 'build/win32/**/{Default.isl,messages.en.isl}';
 
@@ -425,13 +425,13 @@ gulp.task(task.define(
 ));
 
 gulp.task(task.define(
-	'vscode-translations-export',
+	'vydrach-translations-export',
 	task.series(
 		compileBuildTask,
 		compileExtensionsBuildTask,
 		optimizeVSCodeTask,
 		function () {
-			const pathToMetadata = './out-vscode/nls.metadata.json';
+			const pathToMetadata = './out-vydrach/nls.metadata.json';
 			const pathToExtensions = '.build/extensions/*';
 			const pathToSetup = 'build/win32/**/{Default.isl,messages.en.isl}';
 
@@ -439,23 +439,23 @@ gulp.task(task.define(
 				gulp.src(pathToMetadata).pipe(i18n.createXlfFilesForCoreBundle()),
 				gulp.src(pathToSetup).pipe(i18n.createXlfFilesForIsl()),
 				gulp.src(pathToExtensions).pipe(i18n.createXlfFilesForExtensions())
-			).pipe(vfs.dest('../vscode-translations-export'));
+			).pipe(vfs.dest('../vydrach-translations-export'));
 		}
 	)
 ));
 
-gulp.task('vscode-translations-pull', function () {
+gulp.task('vydrach-translations-pull', function () {
 	return es.merge([...i18n.defaultLanguages, ...i18n.extraLanguages].map(language => {
 		let includeDefault = !!innoSetupConfig[language.id].defaultInfo;
-		return i18n.pullSetupXlfFiles(apiHostname, apiName, apiToken, language, includeDefault).pipe(vfs.dest(`../vscode-translations-import/${language.id}/setup`));
+		return i18n.pullSetupXlfFiles(apiHostname, apiName, apiToken, language, includeDefault).pipe(vfs.dest(`../vydrach-translations-import/${language.id}/setup`));
 	}));
 });
 
-gulp.task('vscode-translations-import', function () {
+gulp.task('vydrach-translations-import', function () {
 	let options = minimist(process.argv.slice(2), {
 		string: 'location',
 		default: {
-			location: '../vscode-translations-import'
+			location: '../vydrach-translations-import'
 		}
 	});
 	return es.merge([...i18n.defaultLanguages, ...i18n.extraLanguages].map(language => {
@@ -467,7 +467,7 @@ gulp.task('vscode-translations-import', function () {
 });
 
 // This task is only run for the MacOS build
-const generateVSCodeConfigurationTask = task.define('generate-vscode-configuration', () => {
+const generateVSCodeConfigurationTask = task.define('generate-vydrach-configuration', () => {
 	return new Promise((resolve, reject) => {
 		const buildDir = process.env['AGENT_BUILDDIRECTORY'];
 		if (!buildDir) {
@@ -483,7 +483,7 @@ const generateVSCodeConfigurationTask = task.define('generate-vscode-configurati
 		const arch = process.env['VSCODE_ARCH'];
 		const appRoot = path.join(buildDir, `VSCode-darwin-${arch}`);
 		const appName = process.env.VSCODE_QUALITY === 'insider' ? 'Visual\\ Studio\\ Code\\ -\\ Insiders.app' : 'Visual\\ Studio\\ Code.app';
-		const appPath = path.join(appRoot, appName, 'Contents', 'Resources', 'app', 'bin', 'code');
+		const appPath = path.join(buildDir, 'Vydrach-darwin', appName, 'Contents', 'Resources', 'app', 'bin', 'code');
 		const codeProc = cp.exec(
 			`${appPath} --export-default-configuration='${allConfigDetailsPath}' --wait --user-data-dir='${userDataDir}' --extensions-dir='${extensionsDir}'`,
 			(err, stdout, stderr) => {
@@ -518,7 +518,7 @@ const generateVSCodeConfigurationTask = task.define('generate-vscode-configurati
 
 const allConfigDetailsPath = path.join(os.tmpdir(), 'configuration.json');
 gulp.task(task.define(
-	'upload-vscode-configuration',
+	'upload-vydrach-configuration',
 	task.series(
 		generateVSCodeConfigurationTask,
 		() => {

@@ -20,9 +20,9 @@ const rcedit = require('rcedit');
 const mkdirp = require('mkdirp');
 
 const repoPath = path.dirname(__dirname);
-const buildPath = arch => path.join(path.dirname(repoPath), `VSCode-win32-${arch}`);
+const buildPath = arch => path.join(path.dirname(repoPath), `Vydrach-win32-${arch}`);
 const zipDir = arch => path.join(repoPath, '.build', `win32-${arch}`, 'archive');
-const zipPath = arch => path.join(zipDir(arch), `VSCode-win32-${arch}.zip`);
+const zipPath = arch => path.join(zipDir(arch), `Vydrach-win32-${arch}.zip`);
 const setupDir = (arch, target) => path.join(repoPath, '.build', `win32-${arch}`, `${target}-setup`);
 const issPath = path.join(__dirname, 'win32', 'code.iss');
 const innoSetupPath = path.join(path.dirname(path.dirname(require.resolve('innosetup'))), 'bin', 'ISCC.exe');
@@ -114,7 +114,7 @@ function buildWin32Setup(arch, target) {
 
 function defineWin32SetupTasks(arch, target) {
 	const cleanTask = util.rimraf(setupDir(arch, target));
-	gulp.task(task.define(`vscode-win32-${arch}-${target}-setup`, task.series(cleanTask, buildWin32Setup(arch, target))));
+	gulp.task(task.define(`vydrach-win32-${arch}-${target}-setup`, task.series(cleanTask, buildWin32Setup(arch, target))));
 }
 
 defineWin32SetupTasks('ia32', 'system');
@@ -134,9 +134,9 @@ function archiveWin32Setup(arch) {
 	};
 }
 
-gulp.task(task.define('vscode-win32-ia32-archive', task.series(util.rimraf(zipDir('ia32')), archiveWin32Setup('ia32'))));
-gulp.task(task.define('vscode-win32-x64-archive', task.series(util.rimraf(zipDir('x64')), archiveWin32Setup('x64'))));
-gulp.task(task.define('vscode-win32-arm64-archive', task.series(util.rimraf(zipDir('arm64')), archiveWin32Setup('arm64'))));
+gulp.task(task.define('vydrach-win32-ia32-archive', task.series(util.rimraf(zipDir('ia32')), archiveWin32Setup('ia32'))));
+gulp.task(task.define('vydrach-win32-x64-archive', task.series(util.rimraf(zipDir('x64')), archiveWin32Setup('x64'))));
+gulp.task(task.define('vydrach-win32-arm64-archive', task.series(util.rimraf(zipDir('arm64')), archiveWin32Setup('arm64'))));
 
 function copyInnoUpdater(arch) {
 	return () => {
@@ -152,12 +152,12 @@ function updateIcon(executablePath) {
 	};
 }
 
-gulp.task(task.define('vscode-win32-ia32-inno-updater', task.series(copyInnoUpdater('ia32'), updateIcon(path.join(buildPath('ia32'), 'tools', 'inno_updater.exe')))));
-gulp.task(task.define('vscode-win32-x64-inno-updater', task.series(copyInnoUpdater('x64'), updateIcon(path.join(buildPath('x64'), 'tools', 'inno_updater.exe')))));
-gulp.task(task.define('vscode-win32-arm64-inno-updater', task.series(copyInnoUpdater('arm64'), updateIcon(path.join(buildPath('arm64'), 'tools', 'inno_updater.exe')))));
+gulp.task(task.define('vydrach-win32-ia32-inno-updater', task.series(copyInnoUpdater('ia32'), updateIcon(path.join(buildPath('ia32'), 'tools', 'inno_updater.exe')))));
+gulp.task(task.define('vydrach-win32-x64-inno-updater', task.series(copyInnoUpdater('x64'), updateIcon(path.join(buildPath('x64'), 'tools', 'inno_updater.exe')))));
+gulp.task(task.define('vydrach-win32-arm64-inno-updater', task.series(copyInnoUpdater('arm64'), updateIcon(path.join(buildPath('arm64'), 'tools', 'inno_updater.exe')))));
 
 // CodeHelper.exe icon
 
-gulp.task(task.define('vscode-win32-ia32-code-helper', task.series(updateIcon(path.join(buildPath('ia32'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));
-gulp.task(task.define('vscode-win32-x64-code-helper', task.series(updateIcon(path.join(buildPath('x64'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));
-gulp.task(task.define('vscode-win32-arm64-code-helper', task.series(updateIcon(path.join(buildPath('arm64'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));
+gulp.task(task.define('vydrach-win32-ia32-code-helper', task.series(updateIcon(path.join(buildPath('ia32'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));
+gulp.task(task.define('vydrach-win32-x64-code-helper', task.series(updateIcon(path.join(buildPath('x64'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));
+gulp.task(task.define('vydrach-win32-arm64-code-helper', task.series(updateIcon(path.join(buildPath('arm64'), 'resources', 'app', 'out', 'vs', 'platform', 'files', 'node', 'watcher', 'win32', 'CodeHelper.exe')))));

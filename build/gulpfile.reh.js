@@ -37,7 +37,7 @@ const noop = () => { return Promise.resolve(); };
 
 BUILD_TARGETS.forEach(({ platform, arch }) => {
 	for (const target of ['reh', 'reh-web']) {
-		gulp.task(`vscode-${target}-${platform}${ arch ? `-${arch}` : '' }-min`, noop);
+		gulp.task(`vydrach-${target}-${platform}${ arch ? `-${arch}` : '' }-min`, noop);
 	}
 });
 

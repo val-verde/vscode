@@ -9,8 +9,8 @@ const gulp = require('gulp');
 
 const noop = () => { return Promise.resolve(); };
 
-gulp.task('minify-vscode-web', noop);
-gulp.task('vscode-web', noop);
-gulp.task('vscode-web-min', noop);
-gulp.task('vscode-web-ci', noop);
-gulp.task('vscode-web-min-ci', noop);
+gulp.task('minify-vydrach-web', noop);
+gulp.task('vydrach-web', noop);
+gulp.task('vydrach-web-min', noop);
+gulp.task('vydrach-web-ci', noop);
+gulp.task('vydrach-web-min-ci', noop);
