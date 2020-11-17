@@ -132,7 +132,7 @@ function teardown(): void {
 function waitForEndpoint(): Promise<string> {
 	return new Promise<string>(r => {
 		server!.stdout?.on('data', (d: Buffer) => {
-			const matches = d.toString('ascii').match(/Web UI available at (.+)/);
+			const matches = d.toString('ascii').match(/Vydrach Web UI available at (.+)/);
 			if (matches !== null) {
 				r(matches[1]);
 			}
