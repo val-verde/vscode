@@ -381,12 +381,12 @@
 			"request": "launch",
 			"name": "Run Unit Tests",
 			"program": "${workspaceFolder}/test/unit/electron/index.js",
-			"runtimeExecutable": "${workspaceFolder}/.build/electron/Code - OSS.app/Contents/MacOS/Electron",
+			"runtimeExecutable": "${workspaceFolder}/.build/electron/Vydrach.app/Contents/MacOS/Electron",
 			"windows": {
-				"runtimeExecutable": "${workspaceFolder}/.build/electron/Code - OSS.exe"
+				"runtimeExecutable": "${workspaceFolder}/.build/electron/Vydrach.exe"
 			},
 			"linux": {
-				"runtimeExecutable": "${workspaceFolder}/.build/electron/code-oss"
+				"runtimeExecutable": "${workspaceFolder}/.build/electron/vydrach"
 			},
 			"outputCapture": "std",
 			"args": [
@@ -448,7 +448,7 @@
 			"port": 9999,
 			"args": [
 				"-l",
-				"${workspaceFolder}/.build/electron/Code - OSS.app/Contents/MacOS/Electron"
+				"${workspaceFolder}/.build/electron/Vydrach.app/Contents/MacOS/Electron"
 			],
 			"outFiles": [
 				"${cwd}/out/**/*.js"
@@ -471,50 +471,50 @@
 	],
 	"compounds": [
 		{
-			"name": "VS Code",
+			"name": "Vydrach",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Vydrach",
 				"Attach to Main Process",
 				"Attach to Extension Host",
 				"Attach to Shared Process",
 			],
 			"preLaunchTask": "Ensure Prelaunch Dependencies",
 			"presentation": {
-				"group": "0_vscode",
+				"group": "0_vydrach",
 				"order": 1
 			}
 		},
 		{
 			"name": "Search and Renderer processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Vydrach",
 				"Attach to Search Process"
 			],
 			"presentation": {
-				"group": "1_vscode",
+				"group": "1_vydrach",
 				"order": 4
 			}
 		},
 		{
 			"name": "Renderer and Extension Host processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Vydrach",
 				"Attach to Extension Host"
 			],
 			"presentation": {
-				"group": "1_vscode",
+				"group": "1_vydrach",
 				"order": 3
 			}
 		},
 		{
 			"name": "Debug Unit Tests",
 			"configurations": [
-				"Attach to VS Code",
+				"Attach to Vydrach",
 				"Run Unit Tests"
 			],
 			"presentation": {
-				"group": "1_vscode",
+				"group": "1_vydrach",
 				"order": 2
 			}
 		},

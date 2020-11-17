@@ -172,7 +172,7 @@
 				},
 				"background": {
 					"beginsPattern": ".*node .*",
-					"endsPattern": "Web UI available at .*"
+					"endsPattern": "Vydrach Web UI available at .*"
 				}
 			},
 			"presentation": {

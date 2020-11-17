@@ -1,5 +1,5 @@
 {
-  "name": "code-oss-dev",
+  "name": "vydrach",
   "version": "1.53.0",
   "distro": "65cbf43543d86e78b90fb749d535c3d3ed9dd3a5",
   "author": {
@@ -209,10 +209,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
+    "url": "https://github.com/val-verde/vydrach.git"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/vscode/issues"
+    "url": "https://github.com/val-verde/vydrach/issues"
   },
   "optionalDependencies": {
     "vscode-windows-ca-certs": "^0.3.0",

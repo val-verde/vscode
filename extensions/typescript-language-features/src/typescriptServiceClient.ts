@@ -609,7 +609,7 @@ export default class TypeScriptServiceClient extends Disposable implements IType
 						localize('serverDied', 'The TypeScript language service died unexpectedly 5 times in the last 5 Minutes.'),
 						reportIssueItem);
 				}
-			} else if (['vscode-insiders', 'code-oss'].includes(vscode.env.uriScheme)) {
+			} else if (['vscode-insiders', 'vydrach'].includes(vscode.env.uriScheme)) {
 				// Prompt after a single restart
 				if (!this._isPromptingAfterCrash && previousState.type === ServerState.Type.Errored && previousState.error instanceof TypeScriptServerError) {
 					this.numberRestarts = 0;
